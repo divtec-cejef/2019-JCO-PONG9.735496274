@@ -9,7 +9,7 @@ Bat::Bat(float startX, float startY)
     position.x = startX;
     position.y = startY;
 
-    batShape.setSize(sf::Vector2f(50, 5));
+    batShape.setSize(sf::Vector2f(5, 50));
     batShape.setPosition(position);
 }
 
@@ -23,14 +23,14 @@ RectangleShape Bat::getShape()
     return batShape;
 }
 
-void Bat::moveLeft()
+void Bat::moveUp()
 {
-    position.x -= batSpeed;
+    position.y -= batSpeed;
 }
 
-void Bat::moveRight()
+void Bat::moveDown()
 {
-    position.x += batSpeed;
+    position.y += batSpeed;
 }
 
 void Bat::update()

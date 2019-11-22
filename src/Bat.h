@@ -9,6 +9,7 @@
 
 using namespace sf;
 
+//! Class Bat create a pong bat
 class Bat
 {
 private:
@@ -17,21 +18,30 @@ private:
     // A RectangleShape object
     RectangleShape batShape;
 
-    float batSpeed = .3f;
+    float batSpeed = 5.3f;
 
 public:
+    //! Constructor of bat
+    //! \param startX contains the abcisse start position of a bat
+    //! \param startY contains the y start position of a bat
     Bat(float startX, float startY);
 
+    //! Get globalBounds sfml equivalent
+    //! \return the bounds of the shape
     FloatRect getPosition();
 
+    //! get the shape and return it
+    //! \return  the shape of a bat
     RectangleShape getShape();
 
-    void moveLeft();
+    //! Move the bat up
+    void moveUp();
 
-    void moveRight();
+    //! move the bat down
+    void moveDown();
 
+    //! Update the position of the shape
     void update();
-
 };
 
 

@@ -18,8 +18,10 @@ private:
     // A RectangleShape object called ref
     RectangleShape ballShape;
 
-    float xVelocity = .2f;
-    float yVelocity = .2f;
+    float xVelocity = 2;
+    float yVelocity = 2;
+    float startX = 0;
+    float startY = 0;
 
 public:
     Ball(float startX, float startY);
@@ -32,12 +34,17 @@ public:
 
     void reboundSides();
 
-    void reboundBatOrTop();
+    void reboundWall();
 
     void hitBottom();
 
     void update();
+    
+    void reboundBat();
 
+    void start();
+
+    void stop();
 };
 
 

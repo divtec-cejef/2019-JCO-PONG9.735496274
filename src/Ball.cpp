@@ -31,21 +31,10 @@ float Ball::getXVelocity()
     return xVelocity;
 }
 
-void Ball::reboundSides()
-{
-    xVelocity = -xVelocity;
-}
-
 void Ball::reboundWall()
 {
     //position.y -= (yVelocity * 30);
     yVelocity = -yVelocity;
-}
-
-void Ball::hitBottom()
-{
-    position.y = 1;
-    position.x = 500;
 }
 
 void Ball::update()

@@ -10,12 +10,12 @@
 
 using namespace sf;
 
+//! It's the ball of pong
 class Ball
 {
 private:
     Vector2f position;
 
-    // A RectangleShape object called ref
     RectangleShape ballShape;
 
     float xVelocity = 2;
@@ -24,22 +24,27 @@ private:
     float startY = 0;
 
 public:
+    //! Constructor of ball
+    //! \param startX contains the abcisse start position of the ball
+    //! \param startY contains the y start position of the ball
     Ball(float startX, float startY);
 
+    //! get the global bounds of the ball
     FloatRect getPosition();
 
+    //! get the shape of the ball
     RectangleShape getShape();
 
+    //! get the abcisse velocity of the ball
     float getXVelocity();
 
-    void reboundSides();
-
+    //! inverse the y velocity of the ball
     void reboundWall();
 
-    void hitBottom();
-
+    //! update the ball position
     void update();
-    
+
+
     void reboundBat();
 
     void start();

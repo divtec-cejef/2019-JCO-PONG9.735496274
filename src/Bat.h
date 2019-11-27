@@ -6,6 +6,7 @@
 #define PONG_BAT_H
 
 #include <SFML/Graphics.hpp>
+#include "Ball.h"
 
 using namespace sf;
 
@@ -15,7 +16,6 @@ class Bat
 private:
     Vector2f position;
 
-    // A RectangleShape object
     RectangleShape batShape;
 
     float batSpeed = 5.3f;
@@ -42,6 +42,11 @@ public:
 
     //! Update the position of the shape
     void update();
+
+    //! make the superpower
+    //! \param pBat the bat pointer
+    //! \param pBall the ball pointer
+    void superPower(Bat *pBat, Ball *pBall, int windowWidth);
 };
 
 

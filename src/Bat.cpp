@@ -2,6 +2,7 @@
 // Created by marttom on 20.11.2019.
 //
 
+#include <iostream>
 #include "Bat.h"
 
 Bat::Bat(float startX, float startY)
@@ -36,4 +37,26 @@ void Bat::moveDown()
 void Bat::update()
 {
     batShape.setPosition(position);
+}
+
+void Bat::superPower(Bat *pBat, Ball *pBall, int windowWidth) {
+    int bat = this->getPosition().left < windowWidth ? -1 : 1;
+    if (pBall->getXVelocity() > 0) {
+        // va a droite, depuis la bat gauche
+        if (bat == -1) {
+            pBat.malus();
+        // va à droite, depuis la bat droite
+        } else {
+            pBat.bonus();
+        }
+    } else {
+        // va a gauche, bat gauche
+        if (bat == -1) {
+            
+        // va a gauche depuis
+        } else {
+
+        }
+        std::cout << "left";
+    }
 }

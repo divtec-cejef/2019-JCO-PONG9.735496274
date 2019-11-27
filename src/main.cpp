@@ -133,6 +133,12 @@ int main()
             if (leftTickCounter >= 600) {
                 leftPowerIn.setFillColor(Color::White);
                 leftTickCounter = 0;
+                pLeftBat->superPower(pLeftBat, pBall, windowWidth);
+            }
+        } else if (Keyboard::isKeyPressed(Keyboard::L)) {
+            if (rightTickCounter >= 600) {
+                rightPowerIn.setFillColor(Color::White);
+                rightTickCounter = 0;
             }
         }
         else if (Keyboard::isKeyPressed(Keyboard::I))
@@ -178,13 +184,11 @@ int main()
         if (pBall->getPosition().left < 0)
         {
             leftScore += 1;
-            pBall->reboundSides();
             pBall->stop();
         }
         // pBalle hitting side right
         if (pBall->getPosition().left + 10 > windowWidth) {
             rightScore += 1;
-            pBall->reboundSides();
             pBall->stop();
         }
 
@@ -255,6 +259,16 @@ int main()
             leftPowerIn.setSize(sf::Vector2f(static_cast<int>(leftTickCounter / 6), 20));
             if (pBall->getXVelocity() != 0) {
                 leftTickCounter++;
+            }
+        }
+
+        if (rightTickCounter == 600) {
+            rightPowerIn.setSize(sf::Vector2f(100, 20));
+            rightPowerIn.setFillColor(Color::Green);
+        } else {
+            rightPowerIn.setSize(sf::Vector2f(static_cast<int>(rightTickCounter / 6), 20));
+            if (pBall->getXVelocity() != 0) {
+                rightTickCounter++;
             }
         }
     }// This is the end of the "while" loop

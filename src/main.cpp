@@ -11,8 +11,8 @@ int main()
 {
     int windowWidth = 768;
     int windowHeight = 432;
-    int leftTickCounter = 0;
-    int rightTickCounter = 0;
+    int leftTickCounter = 599;
+    int rightTickCounter = 599;
     // Make a window that is 768 by 432 pixels
     // And has the title "pong"
     RenderWindow window(VideoMode(windowWidth, windowHeight), "pong");
@@ -139,6 +139,7 @@ int main()
             if (rightTickCounter >= 600) {
                 rightPowerIn.setFillColor(Color::White);
                 rightTickCounter = 0;
+                pRightBat->superPower(pRightBat, pBall, windowWidth);
             }
         }
         else if (Keyboard::isKeyPressed(Keyboard::I))

@@ -56,8 +56,6 @@ void Ball::reboundBat() {
         yVelocity += yVelocity > 0 ? .1 : -.1;
     }
     xVelocity = -xVelocity;
-    std::cout << xVelocity;
-    std::cout << "\n";
 }
 
 void Ball::start() {

@@ -9,9 +9,10 @@ Bat::Bat(float startX, float startY)
 {
     position.x = startX;
     position.y = startY;
+    startPosition = position;
 
     batShape.setSize(sf::Vector2f(5, 50));
-    batShape.setPosition(position);
+    batShape.setPosition(startPosition);
 }
 
 FloatRect Bat::getPosition()
@@ -37,6 +38,15 @@ void Bat::moveDown()
 void Bat::update()
 {
     batShape.setPosition(position);
+    if (haveSuperPower && tickCounter < 60*4) {
+        tickCounter++;
+        std::cout << "add";
+    } else if (tickCounter == 60*4){
+        haveSuperPower = false;
+        batShape.setSize(sf::Vector2f(5, 50));
+        std::cout << "Stop";
+        tickCounter = 0;
+    }
 }
 
 void Bat::superPower(Bat *pBat, Ball *pBall, int windowWidth) {
@@ -61,9 +71,10 @@ void Bat::superPower(Bat *pBat, Ball *pBall, int windowWidth) {
 }
 
 void Bat::malus(Ball *pBall) {
-
+    haveSuperPower = true;
 }
 
 void Bat::bonus(Ball *pBall) {
-
+    this->batShape.setSize(Vector2f(5, 300));
+    haveSuperPower = true;
 }

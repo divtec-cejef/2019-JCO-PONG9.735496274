@@ -15,10 +15,13 @@ class Bat
 {
 private:
     Vector2f position;
+    Vector2f startPosition;
 
     RectangleShape batShape;
 
     float batSpeed = 5.3f;
+    bool haveSuperPower = false;
+    int tickCounter = 0;
 
 public:
     //! Constructor of bat

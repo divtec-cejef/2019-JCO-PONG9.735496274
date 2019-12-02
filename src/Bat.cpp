@@ -40,37 +40,28 @@ void Bat::update()
     batShape.setPosition(position);
     if (haveSuperPower && tickCounter < 60*4) {
         tickCounter++;
-        std::cout << "add";
     } else if (tickCounter == 60*4){
         haveSuperPower = false;
         batShape.setSize(sf::Vector2f(5, 50));
-        std::cout << "Stop";
         tickCounter = 0;
     }
 }
 
 void Bat::superPower(Bat *pBat, Ball *pBall, int windowWidth) {
-    int bat = this->getPosition().left < windowWidth ? -1 : 1;
-    if (pBall->getXVelocity() > 0) {
-        // va a droite, depuis la bat gauche
-        if (bat == -1) {
-            pBat->malus(pBall);
-        // va à droite, depuis la bat droite
+    if (pBat->getPosition().left > windowWidth / 2) {
+        /* Bat droite est pBat*/
+        if (pBall->getXVelocity() > 0) {
+            std::cout << "droit";
         } else {
-            pBat->bonus(pBall);
+            std::cout << "gauche";
         }
     } else {
-        // va a gauche, bat gauche
-        if (bat == -1) {
-            this->bonus(pBall);
-        // va a gauche depuis bat droite
-        } else {
-            this->malus(pBall);
-        }
+       /* Bat gauche est pBat*/
     }
 }
 
 void Bat::malus(Ball *pBall) {
+    this->batShape.setSize(Vector2f(5, 20));
     haveSuperPower = true;
 }
 

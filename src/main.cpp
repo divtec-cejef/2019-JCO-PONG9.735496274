@@ -9,8 +9,8 @@ using namespace sf;
 
 int main()
 {
-    int windowWidth = 768;
-    int windowHeight = 432;
+    float windowWidth = 768;
+    float windowHeight = 432;
     int leftTickCounter = 599;
     int rightTickCounter = 599;
     // Make a window that is 768 by 432 pixels
@@ -169,16 +169,12 @@ int main()
     *********************************************************************
 */
 
-        // hitting the bottom
-        if (pBall->getPosition().top > windowHeight)
-        {
-            pBall->reboundWall();
-        }
-
-        // hitting top
-        if (pBall->getPosition().top < 0)
-        {
-            pBall->reboundWall();
+        /* Hitting something */
+        if (
+                pBall->getPosition().top < 0 ||
+                pBall->getPosition().top > windowHeight - 10
+            ) {
+            pBall->rebound();
         }
 
         // pBall hitting side right
@@ -193,13 +189,11 @@ int main()
             pBall->stop();
         }
 
-        // pBall hit the bat?
-        if (pBall->getPosition().intersects(pLeftBat->getPosition()))
-        {
-            pBall->reboundBat();
-        }
-
-        if (pBall->getPosition().intersects(pRightBat->getPosition()))
+        // pBall hit the bat ?
+        if (
+            pBall->getPosition().intersects(pLeftBat->getPosition()) ||
+            pBall->getPosition().intersects(pRightBat->getPosition())
+            )
         {
             pBall->reboundBat();
         }

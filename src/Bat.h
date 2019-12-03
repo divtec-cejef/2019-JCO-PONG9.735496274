@@ -49,7 +49,7 @@ public:
     //! make the superpower
     //! \param pBat the bat pointer
     //! \param pBall the ball pointer
-    void superPower(Bat *pBat, Ball *pBall, int windowWidth);
+    void superPower(Bat *pBat, Ball *pBall, float windowWidth);
 
     //! do a malus for the bat
     //! \param pBall contain the pong ball pointer

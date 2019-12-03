@@ -47,7 +47,7 @@ void Bat::update()
     }
 }
 
-void Bat::superPower(Bat *pBat, Ball *pBall, int windowWidth) {
+void Bat::superPower(Bat *pBat, Ball *pBall, float windowWidth) {
     if (pBat->getPosition().left > windowWidth / 2) {
         /* Bat droite est pBat*/
         if (pBall->getXVelocity() > 0) {

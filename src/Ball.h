@@ -39,7 +39,7 @@ public:
     float getXVelocity();
 
     //! inverse the y velocity of the ball
-    void reboundWall();
+    void rebound();
 
     //! update the ball position
     void update();

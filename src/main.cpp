@@ -15,7 +15,7 @@ int main()
     int rightTickCounter = 599;
     // Make a window that is 768 by 432 pixels
     // And has the title "pong"
-    RenderWindow window(VideoMode(windowWidth, windowHeight), "pong");
+    RenderWindow window(VideoMode(static_cast<int>(windowWidth), static_cast<int>(windowHeight)), "pong");
     window.setFramerateLimit(60);
 
     int leftScore = 0;
@@ -190,6 +190,8 @@ int main()
         }
 
         // pBall hit the bat ?
+        std::cout << "";
+        std::cout << "\n";
         if (
             pBall->getPosition().intersects(pLeftBat->getPosition()) ||
             pBall->getPosition().intersects(pRightBat->getPosition())

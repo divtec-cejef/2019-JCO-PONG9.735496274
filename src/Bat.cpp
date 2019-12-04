@@ -51,13 +51,23 @@ void Bat::superPower(Bat *pBat, Ball *pBall, float windowWidth) {
     if (pBat->getPosition().left > windowWidth / 2) {
         /* Bat droite est pBat*/
         if (pBall->getXVelocity() > 0) {
-            std::cout << "droit";
+            std::cout << "bonus droit";
+            pBat->bonus(pBall);
         } else {
-            std::cout << "gauche";
+            std::cout << "malus gauche";
+            pBat->malus(pBall);
         }
     } else {
        /* Bat gauche est pBat*/
+        if (pBall->getXVelocity() > 0) {
+            std::cout << "malus droit";
+            pBat->malus(pBall);
+        } else {
+            std::cout << "bonus gauche";
+            pBat->bonus(pBall);
+        }
     }
+    std::cout << "\n";
 }
 
 void Bat::malus(Ball *pBall) {

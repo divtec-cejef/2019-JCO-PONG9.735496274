@@ -29,6 +29,11 @@ public:
     //! \param startY contains the y start position of the ball
     Ball(float startX, float startY);
 
+    enum E_DIRECTION {
+        UP_AND_DOWN,
+        RIGHT_AND_LEFT
+    };
+
     //! get the global bounds of the ball
     FloatRect getPosition();
 
@@ -39,13 +44,13 @@ public:
     float getXVelocity();
 
     //! inverse the y velocity of the ball
-    void rebound();
+    void reboundWall();
 
     //! update the ball position
     void update();
 
 
-    void reboundBat();
+    void rebound(E_DIRECTION direction, bool isBat);
 
     void start();
 

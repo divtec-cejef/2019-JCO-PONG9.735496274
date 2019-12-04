@@ -31,7 +31,7 @@ float Ball::getXVelocity()
     return xVelocity;
 }
 
-void Ball::rebound()
+void Ball::reboundWall()
 {
     yVelocity = -yVelocity;
 }
@@ -46,15 +46,22 @@ void Ball::update()
     ballShape.setPosition(position);
 }
 
-void Ball::reboundBat() {
-    if (std::abs(xVelocity) < 5.5) {
-        xVelocity += xVelocity > 0 ? .3 : -.3;
-        yVelocity += yVelocity > 0 ? .3 : -.3;
-    } else if (std::abs(xVelocity) < 7) {
-        xVelocity += xVelocity > 0 ? .1 : -.1;
-        yVelocity += yVelocity > 0 ? .1 : -.1;
+void Ball::rebound(E_DIRECTION direction, bool isBat) {
+    if (isBat) {
+        if (std::abs(xVelocity) < 5.5) {
+            xVelocity += xVelocity > 0 ? .3 : -.3;
+            yVelocity += yVelocity > 0 ? .3 : -.3;
+        } else if (std::abs(xVelocity) < 7) {
+            xVelocity += xVelocity > 0 ? .1 : -.1;
+            yVelocity += yVelocity > 0 ? .1 : -.1;
+        }
+    } else {
+        if (direction == UP_AND_DOWN) {
+            yVelocity = -yVelocity;
+        } else {
+            xVelocity = -xVelocity;
+        }
     }
-    xVelocity = -xVelocity;
 }
 
 void Ball::start() {

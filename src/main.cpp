@@ -24,10 +24,9 @@ int main()
     // create a bat
     Bat* pLeftBat = new Bat(3, windowHeight / 2);
     Bat* pRightBat = new Bat(windowWidth - 8, windowHeight / 2);
-
     // create a pBall
     Ball* pBall = new Ball(windowWidth / 2, windowHeight / 2);
-
+    // create the superpower
     RectangleShape leftPowerOut(sf::Vector2f(100, 20));
     leftPowerOut.setOutlineThickness(5);
     leftPowerOut.setOutlineColor(Color::Green);
@@ -42,26 +41,18 @@ int main()
     rightPowerOut.setPosition(635, 10);
     RectangleShape rightPowerIn(sf::Vector2f(0, 20));
     rightPowerIn.setPosition(635, 10);
-
-
-
     // Create a "Text" object called "message". Weird but we will learn about objects soon
     Text leftHud;
     Text rightHud;
-
     // We need to choose a font
     Font font;
     // http://www.dafont.com/theme.php?cat=302
     font.loadFromFile("DS-DIGIT.TTF");
-
     // Set the font to our message
     leftHud.setFont(font);
     rightHud.setFont(font);
-
-    // Make it really big
     leftHud.setCharacterSize(30);
     rightHud.setCharacterSize(30);
-
     // Choose a color
     leftHud.setFillColor(sf::Color::White);
     rightHud.setFillColor(sf::Color::White);
@@ -100,6 +91,10 @@ int main()
 
     RectangleShape rec10(sf::Vector2f(5, 20));
     rec10.setPosition(windowWidth / 2, 405);
+
+
+    RectangleShape bigRec(sf::Vector2f(50, 50));
+    bigRec.setPosition(windowWidth / 2, 100);
 
     // This "while" loop goes round and round- perhaps forever
     while (window.isOpen())
@@ -169,12 +164,12 @@ int main()
     *********************************************************************
 */
 
-        /* Hitting something */
+        /* Hitting wall */
         if (
                 pBall->getPosition().top < 0 ||
                 pBall->getPosition().top > windowHeight - 10
             ) {
-            pBall->rebound();
+            pBall->reboundWall();
         }
 
         // pBall hitting side right
@@ -189,15 +184,20 @@ int main()
             pBall->stop();
         }
 
-        // pBall hit the bat ?
-        std::cout << "";
-        std::cout << "\n";
+        // pBall hit something ?
+        FloatRect pB;
+        bool isBat = false;
         if (
-            pBall->getPosition().intersects(pLeftBat->getPosition()) ||
-            pBall->getPosition().intersects(pRightBat->getPosition())
+            pBall->getPosition().intersects((pB = pLeftBat->getPosition())) ||
+            pBall->getPosition().intersects((pB = pRightBat->getPosition())) ||
+            pBall->getPosition().intersects((pB = bigRec.getGlobalBounds()))
             )
         {
-            pBall->reboundBat();
+            if (pBall->getPosition().top == pB.top - 8 || pBall->getPosition().top == pB.top + pB.height - 2) {
+                pBall->rebound(pBall->UP_AND_DOWN, isBat);
+            } else  {
+                pBall->rebound(pBall->RIGHT_AND_LEFT, isBat);
+            }
         }
 
         pBall->update();
@@ -246,6 +246,8 @@ int main()
         window.draw(rec8);
         window.draw(rec9);
         window.draw(rec10);
+
+        window.draw(bigRec);
 
         window.display();
 

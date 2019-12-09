@@ -4,6 +4,8 @@
 
 #include "Ball.h"
 #include <iostream>
+#include <cstdlib>
+
 
 Ball::Ball(float startX, float startY)
 {
@@ -65,8 +67,8 @@ void Ball::rebound(E_DIRECTION direction, bool isBat) {
 }
 
 void Ball::start() {
-    xVelocity = 2;
-    yVelocity = 2;
+    xVelocity = rand()%2 == 0 ? 2 : -2;
+    yVelocity = rand()%2 == 0 ? 2 : -2;
     position.x = startX;
     position.y = startY;
 }

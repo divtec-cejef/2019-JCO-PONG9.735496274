@@ -8,6 +8,7 @@
 
 #include <SFML/Graphics.hpp>
 
+
 using namespace sf;
 
 //! It's the ball of pong

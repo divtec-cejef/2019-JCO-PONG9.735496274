@@ -11,16 +11,18 @@ using namespace sf;
 
 int main()
 {
-
+    // const definition
     const float WINDOW_WIDTH = 768;
     const float WINDOW_HEIGHT = 432;
+    const sf::Time TIME_TO_PLAY = sf::seconds(3);
+
+    // variable définition
     int leftTickCounter = 599;
     int rightTickCounter = 599;
 
-    const sf::Time TIME_TO_PLAY = sf::seconds(3);
     // Make a window that is 768 by 432 pixels
     // And has the title "pong"
-    RenderWindow window(VideoMode(static_cast<int>(WINDOW_WIDTH), static_cast<int>(WINDOW_HEIGHT)), "pong");
+    RenderWindow window(VideoMode(static_cast<int>(WINDOW_WIDTH), static_cast<int>(WINDOW_HEIGHT)), "Pong");
     window.setFramerateLimit(60);
 
     int leftScore = 0;

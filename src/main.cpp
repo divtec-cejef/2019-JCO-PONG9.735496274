@@ -5,31 +5,32 @@
 #include "Ball.h"
 #include <iostream>
 
+#include <vector>
+
 using namespace sf;
 
 int main()
 {
 
-
-    float windowWidth = 768;
-    float windowHeight = 432;
+    const float WINDOW_WIDTH = 768;
+    const float WINDOW_HEIGHT = 432;
     int leftTickCounter = 599;
     int rightTickCounter = 599;
 
     const sf::Time TIME_TO_PLAY = sf::seconds(3);
     // Make a window that is 768 by 432 pixels
     // And has the title "pong"
-    RenderWindow window(VideoMode(static_cast<int>(windowWidth), static_cast<int>(windowHeight)), "pong");
+    RenderWindow window(VideoMode(static_cast<int>(WINDOW_WIDTH), static_cast<int>(WINDOW_HEIGHT)), "pong");
     window.setFramerateLimit(60);
 
     int leftScore = 0;
     int rightScore = 0;
 
     // create a bat
-    Bat* pLeftBat = new Bat(3, windowHeight / 2);
-    Bat* pRightBat = new Bat(windowWidth - 8, windowHeight / 2);
+    Bat* pLeftBat = new Bat(3, WINDOW_HEIGHT / 2);
+    Bat* pRightBat = new Bat(WINDOW_WIDTH - 8, WINDOW_HEIGHT / 2);
     // create a pBall
-    Ball* pBall = new Ball(windowWidth / 2, windowHeight / 2);
+    Ball* pBall = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
     // create the superpower
     RectangleShape leftPowerOut(sf::Vector2f(100, 20));
     leftPowerOut.setOutlineThickness(5);
@@ -61,44 +62,17 @@ int main()
     leftHud.setFillColor(sf::Color::White);
     rightHud.setFillColor(sf::Color::White);
 
-    rightHud.setPosition(windowWidth - 20, 0);
+    rightHud.setPosition(WINDOW_WIDTH - 20, 0);
 
-    RectangleShape rec(sf::Vector2f(5, 20));
-    rec.setPosition(windowWidth / 2, 5);
+    std::vector <RectangleShape*> recs;
 
-    RectangleShape rec1(sf::Vector2f(5, 20));
-    rec1.setPosition(windowWidth / 2, 45);
-
-    RectangleShape rec2(sf::Vector2f(5, 20));
-    rec2.setPosition(windowWidth / 2, 85);
-
-    RectangleShape rec3(sf::Vector2f(5, 20));
-    rec3.setPosition(windowWidth / 2, 125);
-
-    RectangleShape rec4(sf::Vector2f(5, 20));
-    rec4.setPosition(windowWidth / 2, 165);
-
-    RectangleShape rec5(sf::Vector2f(5, 20));
-    rec5.setPosition(windowWidth / 2, 205);
-
-    RectangleShape rec6(sf::Vector2f(5, 20));
-    rec6.setPosition(windowWidth / 2, 245);
-
-    RectangleShape rec7(sf::Vector2f(5, 20));
-    rec7.setPosition(windowWidth / 2, 285);
-
-    RectangleShape rec8(sf::Vector2f(5, 20));
-    rec8.setPosition(windowWidth / 2, 325);
-
-    RectangleShape rec9(sf::Vector2f(5, 20));
-    rec9.setPosition(windowWidth / 2, 365);
-
-    RectangleShape rec10(sf::Vector2f(5, 20));
-    rec10.setPosition(windowWidth / 2, 405);
-
+    for (int i = 0; i < 11; i++) {
+        recs.push_back(new RectangleShape(sf::Vector2f(5, 20)));
+        recs.at(i)->setPosition(WINDOW_WIDTH / 2 - 2.5, i * 40 + 5);
+    }
 
     RectangleShape bigRec(sf::Vector2f(50, 50));
-    bigRec.setPosition(windowWidth / 2, 100);
+    bigRec.setPosition(WINDOW_WIDTH / 2, 100);
 
     //! draw the shape on the window
     auto draw = [&]() {
@@ -115,17 +89,9 @@ int main()
         window.draw(leftHud);
         window.draw(rightHud);
 
-        window.draw(rec);
-        window.draw(rec1);
-        window.draw(rec2);
-        window.draw(rec3);
-        window.draw(rec4);
-        window.draw(rec5);
-        window.draw(rec6);
-        window.draw(rec7);
-        window.draw(rec8);
-        window.draw(rec9);
-        window.draw(rec10);
+        for (RectangleShape* rec : recs) {
+            window.draw(*rec);
+        }
 
         window.draw(bigRec);
     };
@@ -174,20 +140,20 @@ int main()
         }
         else if (Keyboard::isKeyPressed(Keyboard::S))
         {
-            if (pLeftBat->getPosition().top + pLeftBat->getPosition().height < windowHeight) {
+            if (pLeftBat->getPosition().top + pLeftBat->getPosition().height < WINDOW_HEIGHT) {
                 pLeftBat->moveDown();
             }
         } else if (Keyboard::isKeyPressed(Keyboard::A)) {
             if (leftTickCounter >= 600) {
                 leftPowerIn.setFillColor(Color::White);
                 leftTickCounter = 0;
-                pLeftBat->superPower(pLeftBat, pBall, windowWidth);
+                pLeftBat->superPower(pLeftBat, pBall, WINDOW_WIDTH);
             }
         } else if (Keyboard::isKeyPressed(Keyboard::L)) {
             if (rightTickCounter >= 600) {
                 rightPowerIn.setFillColor(Color::White);
                 rightTickCounter = 0;
-                pRightBat->superPower(pRightBat, pBall, windowWidth);
+                pRightBat->superPower(pRightBat, pBall, WINDOW_WIDTH);
             }
         }
         else if (Keyboard::isKeyPressed(Keyboard::I))
@@ -198,7 +164,7 @@ int main()
         }
         else if (Keyboard::isKeyPressed(Keyboard::K))
         {
-            if (pRightBat->getPosition().top + pRightBat->getPosition().height < windowHeight) {
+            if (pRightBat->getPosition().top + pRightBat->getPosition().height < WINDOW_HEIGHT) {
                 pRightBat->moveDown();
             }
         }
@@ -216,7 +182,7 @@ int main()
     auto collisionCheck = [&] () {
         if (
                 pBall->getPosition().top < 0 ||
-                pBall->getPosition().top > windowHeight - 10
+                pBall->getPosition().top > WINDOW_HEIGHT - 10
                 ) {
             pBall->reboundWall();
         }
@@ -228,7 +194,7 @@ int main()
             pBall->stop();
         }
         // pBalle hitting side right
-        if (pBall->getPosition().left + 10 > windowWidth) {
+        if (pBall->getPosition().left + 10 > WINDOW_WIDTH) {
             rightScore += 1;
             pBall->stop();
         }

@@ -68,7 +68,7 @@ void Ball::rebound(E_DIRECTION direction, bool isBat) {
 
 void Ball::start() {
     xVelocity = rand()%2 == 0 ? 2 : -2;
-    yVelocity = rand()%2 == 0 ? 2 : -2;
+    yVelocity = rand()%2 == 0 ? rand()%3 + 1 : 0-rand()%3 -1;
     position.x = startX;
     position.y = startY;
 }

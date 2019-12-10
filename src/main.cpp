@@ -211,7 +211,6 @@ int main()
                 pBall->getPosition().intersects((pB = bigRec.getGlobalBounds()))
                 )
         {
-            Beep(440, 500);
             if (pBall->getPosition().top == pB.top - 8 || pBall->getPosition().top == pB.top + pB.height - 2) {
                 pBall->rebound(pBall->UP_AND_DOWN, isBat);
             } else  {

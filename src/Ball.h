@@ -16,12 +16,10 @@ using namespace sf;
 class Ball : public GameObject
 {
 private:
-    Vector2f position;
-
     float xVelocity = 2;
     float yVelocity = 2;
-    float startX = 0;
-    float startY = 0;
+    Vector2f startPosition;
+
 
 public:
     //! Constructor of ball

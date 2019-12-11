@@ -33,7 +33,7 @@ int main()
     Bat* pLeftBat = new Bat(3, WINDOW_HEIGHT / 2);
     Bat* pRightBat = new Bat(WINDOW_WIDTH - 8, WINDOW_HEIGHT / 2);
     // create a pBall
-    Ball* pBall = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+    Ball* pBall = new Ball(WINDOW_WIDTH / 2 -5, WINDOW_HEIGHT / 2);
     // create the superpower
     RectangleShape leftPowerOut(sf::Vector2f(100, 20));
     leftPowerOut.setOutlineThickness(5);
@@ -79,62 +79,31 @@ int main()
 
     //! draw the shape on the window
     auto draw = [&]() {
-        window.draw(leftPowerOut);
-        window.draw(leftPowerIn);
-        window.draw(rightPowerOut);
-        window.draw(rightPowerIn);
-
-        window.draw(pLeftBat->getShape());
-        window.draw(pRightBat->getShape());
-        window.draw(pBall->getShape());
-
-        // Draw our score
-        window.draw(leftHud);
-        window.draw(rightHud);
-
-        for (RectangleShape* rec : recs) {
-            window.draw(*rec);
-        }
-
-        window.draw(bigRec);
     };
 
     //! update the position of the shape in the window
     auto update = [&] {
-        pBall->update();
-        pLeftBat->update();
-        pRightBat->update();
-
-        std::stringstream lss;
-        std::stringstream rss;
-        lss << leftScore;
-        rss << rightScore;
-        leftHud.setString(rss.str());
-        rightHud.setString(lss.str());
-
-        if (leftTickCounter == 600) {
-            leftPowerIn.setSize(sf::Vector2f(100, 20));
-            leftPowerIn.setFillColor(Color::Green);
-        } else {
-            leftPowerIn.setSize(sf::Vector2f(static_cast<int>(leftTickCounter / 6), 20));
-            if (pBall->getXVelocity() != 0) {
-                leftTickCounter++;
-            }
-        }
-
-        if (rightTickCounter == 600) {
-            rightPowerIn.setSize(sf::Vector2f(100, 20));
-            rightPowerIn.setFillColor(Color::Green);
-        } else {
-            rightPowerIn.setSize(sf::Vector2f(static_cast<int>(rightTickCounter / 6), 20));
-            if (pBall->getXVelocity() != 0) {
-                rightTickCounter++;
-            }
-        }
     };
 
     //! check the keyboard event
     auto keyboardEventCheck = [&]() {
+    };
+
+    //! check the collision
+    auto collisionCheck = [&] () {
+    };
+
+    // game loop
+    while (window.isOpen())
+    {
+        Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == Event::Closed)
+                window.close();
+        }
+
+        keyboardEventCheck();
         if (Keyboard::isKeyPressed(Keyboard::W))
         {
             if (pLeftBat->getPosition().top > 0) {
@@ -179,10 +148,8 @@ int main()
         {
             window.close();
         }
-    };
 
-    //! check the collision
-    auto collisionCheck = [&] () {
+        collisionCheck();
         if (
                 pBall->getPosition().top < 0 ||
                 pBall->getPosition().top > WINDOW_HEIGHT - 10
@@ -205,40 +172,86 @@ int main()
         // pBall hit something ?
         FloatRect pB;
         bool isBat = false;
+
         if (
+
                 pBall->getPosition().intersects((pB = pLeftBat->getPosition())) ||
+
                 pBall->getPosition().intersects((pB = pRightBat->getPosition())) ||
+
                 pBall->getPosition().intersects((pB = bigRec.getGlobalBounds()))
+
                 )
+
         {
+
             isBat = pB.left == 3 || pB.left == 760;
+
             if (pBall->getPosition().top == pB.top - 8 || pBall->getPosition().top == pB.top + pB.height - 2) {
+
                 pBall->rebound(pBall->UP_AND_DOWN, isBat);
+
             } else  {
+
                 pBall->rebound(pBall->RIGHT_AND_LEFT, isBat);
+
             }
+
         }
-    };
-
-    // game loop
-    while (window.isOpen())
-    {
-        Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == Event::Closed)
-                window.close();
-        }
-
-        keyboardEventCheck();
-
-        collisionCheck();
 
         update();
+        pBall->update();
+        pLeftBat->update();
+        pRightBat->update();
+
+        std::stringstream lss;
+        std::stringstream rss;
+        lss << leftScore;
+        rss << rightScore;
+        leftHud.setString(rss.str());
+        rightHud.setString(lss.str());
+
+        if (leftTickCounter == 600) {
+            leftPowerIn.setSize(sf::Vector2f(100, 20));
+            leftPowerIn.setFillColor(Color::Green);
+        } else {
+            leftPowerIn.setSize(sf::Vector2f(static_cast<int>(leftTickCounter / 6), 20));
+            if (pBall->getXVelocity() != 0) {
+                leftTickCounter++;
+            }
+        }
+
+        if (rightTickCounter == 600) {
+            rightPowerIn.setSize(sf::Vector2f(100, 20));
+            rightPowerIn.setFillColor(Color::Green);
+        } else {
+            rightPowerIn.setSize(sf::Vector2f(static_cast<int>(rightTickCounter / 6), 20));
+            if (pBall->getXVelocity() != 0) {
+                rightTickCounter++;
+            }
+        }
 
         window.clear(Color(0, 0, 0,0));
 
         draw();
+        window.draw(leftPowerOut);
+        window.draw(leftPowerIn);
+        window.draw(rightPowerOut);
+        window.draw(rightPowerIn);
+
+        window.draw(pLeftBat->getShape());
+        window.draw(pRightBat->getShape());
+        window.draw(pBall->getShape());
+
+        // Draw our score
+        window.draw(leftHud);
+        window.draw(rightHud);
+
+        for (RectangleShape* rec : recs) {
+            window.draw(*rec);
+        }
+
+        window.draw(bigRec);
 
         window.display();
     }

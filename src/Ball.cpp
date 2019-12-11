@@ -7,25 +7,12 @@
 #include <cstdlib>
 
 
-Ball::Ball(float startX, float startY)
+Ball::Ball(float startX, float startY) : GameObject (startX, startY)
 {
-    position.x = startX;
-    position.y = startY;
     this->startX = startX;
     this->startY = startY;
 
-    ballShape.setSize(sf::Vector2f(10, 10));
-    ballShape.setPosition(position);
-}
-
-FloatRect Ball::getPosition()
-{
-    return ballShape.getGlobalBounds();
-}
-
-RectangleShape Ball::getShape()
-{
-    return ballShape;
+    setShape(10, 10);
 }
 
 float Ball::getXVelocity()
@@ -45,12 +32,11 @@ void Ball::update()
     position.x += xVelocity;
 
     // Move the ball and the bat
-    ballShape.setPosition(position);
+    shape->setPosition(position);
 }
 
 void Ball::rebound(E_DIRECTION direction, bool isBat) {
     if (isBat) {
-            yVelocity += yVelocity > 0 ? .1 : -.1;
         if (yVelocity > 0) {
             yVelocity += .4;
         } else {

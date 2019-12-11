@@ -5,24 +5,10 @@
 #include <iostream>
 #include "Bat.h"
 
-Bat::Bat(float startX, float startY)
+Bat::Bat(float startX, float startY) : GameObject(startX, startY)
 {
-    position.x = startX;
-    position.y = startY;
     startPosition = position;
-
-    batShape.setSize(sf::Vector2f(5, 50));
-    batShape.setPosition(startPosition);
-}
-
-FloatRect Bat::getPosition()
-{
-    return batShape.getGlobalBounds();
-}
-
-RectangleShape Bat::getShape()
-{
-    return batShape;
+    setShape(5, 50);
 }
 
 void Bat::moveUp()
@@ -37,12 +23,12 @@ void Bat::moveDown()
 
 void Bat::update()
 {
-    batShape.setPosition(position);
+    shape->setPosition(position);
     if (haveSuperPower && tickCounter < 60*4) {
         tickCounter++;
     } else if (tickCounter == 60*4){
         haveSuperPower = false;
-        batShape.setSize(sf::Vector2f(5, 50));
+        shape->setSize(sf::Vector2f(5, 50));
         tickCounter = 0;
     }
 }
@@ -71,11 +57,11 @@ void Bat::superPower(Bat *pBat, Ball *pBall, float windowWidth) {
 }
 
 void Bat::malus(Ball *pBall) {
-    this->batShape.setSize(Vector2f(5, 20));
+    this->shape->setSize(Vector2f(5, 20));
     haveSuperPower = true;
 }
 
 void Bat::bonus(Ball *pBall) {
-    this->batShape.setSize(Vector2f(5, 300));
+    this->shape->setSize(Vector2f(5, 300));
     haveSuperPower = true;
 }

@@ -7,17 +7,16 @@
 
 
 #include <SFML/Graphics.hpp>
+#include "GameObject.h"
 
 
 using namespace sf;
 
 //! It's the ball of pong
-class Ball
+class Ball : public GameObject
 {
 private:
     Vector2f position;
-
-    RectangleShape ballShape;
 
     float xVelocity = 2;
     float yVelocity = 2;
@@ -35,12 +34,6 @@ public:
         RIGHT_AND_LEFT
     };
 
-    //! get the global bounds of the ball
-    FloatRect getPosition();
-
-    //! get the shape of the ball
-    RectangleShape getShape();
-
     //! get the abcisse velocity of the ball
     float getXVelocity();
 
@@ -48,7 +41,7 @@ public:
     void reboundWall();
 
     //! update the ball position
-    void update();
+    void update() override;
 
 
     void rebound(E_DIRECTION direction, bool isBat);

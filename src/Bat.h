@@ -11,13 +11,10 @@
 using namespace sf;
 
 //! Class Bat create a pong bat
-class Bat
+class Bat : public GameObject
 {
 private:
-    Vector2f position;
     Vector2f startPosition;
-
-    RectangleShape batShape;
 
     float batSpeed = 5.3f;
     bool haveSuperPower = false;
@@ -29,14 +26,6 @@ public:
     //! \param startY contains the y start position of a bat
     Bat(float startX, float startY);
 
-    //! Get globalBounds sfml equivalent
-    //! \return the bounds of the shape
-    FloatRect getPosition();
-
-    //! get the shape and return it
-    //! \return  the shape of a bat
-    RectangleShape getShape();
-
     //! Move the bat up
     void moveUp();
 
@@ -44,7 +33,7 @@ public:
     void moveDown();
 
     //! Update the position of the shape
-    void update();
+    void update() override;
 
     //! make the superpower
     //! \param pBat the bat pointer

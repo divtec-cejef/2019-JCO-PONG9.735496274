@@ -35,30 +35,14 @@ void Ball::update()
 
 void Ball::rebound(E_DIRECTION direction, bool isBat) {
     if (isBat) {
-        if (yVelocity > 0) {
-            yVelocity += .4;
-        } else {
-            yVelocity -= .4;
-        }
-        if (xVelocity > 0) {
-            xVelocity += .4;
-        } else {
-            xVelocity -= .4;
-        }
-        if (direction == UP_AND_DOWN) {
-            yVelocity = -yVelocity;
-        } else {
-            xVelocity = -xVelocity;
-        }
-    } else {
-        if (direction == UP_AND_DOWN) {
-            yVelocity = -yVelocity;
-        } else {
-            xVelocity = -xVelocity;
-        }
+        yVelocity > 0 ? (yVelocity += .4) : (yVelocity -= .4);
+        xVelocity > 0 ? (xVelocity += .4) : (xVelocity -= .4);
     }
-    std::cout << "x : " << xVelocity << "\n";
-    std::cout << "y : " << yVelocity << "\n";
+    if (direction == UP_AND_DOWN) {
+        yVelocity = -yVelocity;
+    } else {
+        xVelocity = -xVelocity;
+    }
 }
 
 void Ball::start() {

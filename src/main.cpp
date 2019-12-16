@@ -184,10 +184,17 @@ int main()
                 )
 
         {
+            int a = pB.top + pB.height - 2;
+            int b = pBall->getPosition().top;
+
+            std::cout << a << " == " << b <<  " => " << (a >= b-1 && a <= b+1) << "\n";
+
 
             isBat = pB.left == 3 || pB.left == 760;
-
-            if (pBall->getPosition().top == pB.top - 8 || pBall->getPosition().top == pB.top + pB.height - 2) {
+            if (pB.top + pB.height - 2 == pBall->getPosition().top) {
+                std::cout << "Yeah, of course";
+            }
+            if (static_cast<int>(pBall->getPosition().top) == pB.top - 8 || pB.top + pB.height == pBall->getPosition().top) {
                 pBall->rebound(pBall->UP_AND_DOWN, isBat);
             } else  {
                 pBall->rebound(pBall->RIGHT_AND_LEFT, isBat);

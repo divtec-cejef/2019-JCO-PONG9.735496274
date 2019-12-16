@@ -188,13 +188,9 @@ int main()
             isBat = pB.left == 3 || pB.left == 760;
 
             if (pBall->getPosition().top == pB.top - 8 || pBall->getPosition().top == pB.top + pB.height - 2) {
-
                 pBall->rebound(pBall->UP_AND_DOWN, isBat);
-
             } else  {
-
                 pBall->rebound(pBall->RIGHT_AND_LEFT, isBat);
-
             }
 
         }

@@ -23,8 +23,8 @@ int main()
 
     // Make a window that is 768 by 432 pixels
     // And has the title "pong"
-    RenderWindow window(VideoMode(static_cast<int>(WINDOW_WIDTH), static_cast<int>(WINDOW_HEIGHT)), "Pong");
-    window.setFramerateLimit(60);
+    auto* pWindow = new RenderWindow(VideoMode(static_cast<int>(WINDOW_WIDTH), static_cast<int>(WINDOW_HEIGHT)), "Pong");
+    pWindow->setFramerateLimit(60);
 
     int leftScore = 0;
     int rightScore = 0;
@@ -94,13 +94,13 @@ int main()
     };
 
     // game loop
-    while (window.isOpen())
+    while (pWindow->isOpen())
     {
         Event event;
-        while (window.pollEvent(event))
+        while (pWindow->pollEvent(event))
         {
             if (event.type == Event::Closed)
-                window.close();
+                pWindow->close();
         }
 
         keyboardEventCheck();
@@ -146,7 +146,7 @@ int main()
         }
         else if (Keyboard::isKeyPressed(sf::Keyboard::C))
         {
-            window.close();
+            pWindow->close();
         }
 
         collisionCheck();
@@ -234,29 +234,29 @@ int main()
             }
         }
 
-        window.clear(Color(0, 0, 0,0));
+        pWindow->clear(Color(0, 0, 0,0));
 
         draw();
-        window.draw(leftPowerOut);
-        window.draw(leftPowerIn);
-        window.draw(rightPowerOut);
-        window.draw(rightPowerIn);
+        pWindow->draw(leftPowerOut);
+        pWindow->draw(leftPowerIn);
+        pWindow->draw(rightPowerOut);
+        pWindow->draw(rightPowerIn);
 
-        window.draw(pLeftBat->getShape());
-        window.draw(pRightBat->getShape());
-        window.draw(pBall->getShape());
+        pWindow->draw(pLeftBat->getShape());
+        pWindow->draw(pRightBat->getShape());
+        pWindow->draw(pBall->getShape());
 
         // Draw our score
-        window.draw(leftHud);
-        window.draw(rightHud);
+        pWindow->draw(leftHud);
+        pWindow->draw(rightHud);
 
         for (RectangleShape* rec : recs) {
-            window.draw(*rec);
+            pWindow->draw(*rec);
         }
 
-        window.draw(bigRec);
+        pWindow->draw(bigRec);
 
-        window.display();
+        pWindow->display();
     }
 
     return 0;

@@ -1,8 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <sstream>
 #include <cstdlib>
-#include "bat.h"
+#include "Bat.h"
+#include "Gauge.h"
 #include "Ball.h"
+#include "ScoreViewer.h"
 #include <iostream>
 #include <windows.h>
 
@@ -17,10 +19,6 @@ int main()
     const float WINDOW_HEIGHT = 432;
     const sf::Time TIME_TO_PLAY = sf::seconds(3);
 
-    // variable définition
-    int leftTickCounter = 599;
-    int rightTickCounter = 599;
-
     // Make a window that is 768 by 432 pixels
     // And has the title "pong"
     auto* pWindow = new RenderWindow(VideoMode(static_cast<int>(WINDOW_WIDTH), static_cast<int>(WINDOW_HEIGHT)), "Pong");
@@ -34,38 +32,13 @@ int main()
     Bat* pRightBat = new Bat(WINDOW_WIDTH - 8, WINDOW_HEIGHT / 2);
     // create a pBall
     Ball* pBall = new Ball(WINDOW_WIDTH / 2 -5, WINDOW_HEIGHT / 2);
-    // create the superpower
-    RectangleShape leftPowerOut(sf::Vector2f(100, 20));
-    leftPowerOut.setOutlineThickness(5);
-    leftPowerOut.setOutlineColor(Color::Green);
-    leftPowerOut.setFillColor(Color::Black);
-    leftPowerOut.setPosition(30, 10);
-    RectangleShape leftPowerIn(sf::Vector2f(0, 20));
-    leftPowerIn.setPosition(30, 10);
-    RectangleShape rightPowerOut(sf::Vector2f(100, 20));
-    rightPowerOut.setOutlineThickness(5);
-    rightPowerOut.setOutlineColor(Color::Green);
-    rightPowerOut.setFillColor(Color::Black);
-    rightPowerOut.setPosition(635, 10);
-    RectangleShape rightPowerIn(sf::Vector2f(0, 20));
-    rightPowerIn.setPosition(635, 10);
-    // Create a "Text" object called "message". Weird but we will learn about objects soon
-    Text leftHud;
-    Text rightHud;
-    // We need to choose a font
-    Font font;
-    // http://www.dafont.com/theme.php?cat=302
-    font.loadFromFile("DS-DIGIT.TTF");
-    // Set the font to our message
-    leftHud.setFont(font);
-    rightHud.setFont(font);
-    leftHud.setCharacterSize(30);
-    rightHud.setCharacterSize(30);
-    // Choose a color
-    leftHud.setFillColor(sf::Color::White);
-    rightHud.setFillColor(sf::Color::White);
 
-    rightHud.setPosition(WINDOW_WIDTH - 20, 0);
+    auto* pLeftPower = new Gauge(Vector2f(30, 10), 100, 20, 60, pWindow, 600, 60);
+    auto* pRightPower = new Gauge(Vector2f(635, 10), 100, 20, 60, pWindow, 600, 60);
+
+    auto* pLeftDisplay = new ScoreViewer(Vector2f(20, 20), pWindow);
+    auto* pRightDisplay = new ScoreViewer(Vector2f(WINDOW_WIDTH - 20, 0), pWindow);
+
 
     std::vector <RectangleShape*> recs;
 
@@ -77,22 +50,6 @@ int main()
     RectangleShape bigRec(sf::Vector2f(50, 50));
     bigRec.setPosition(WINDOW_WIDTH / 2, 100);
 
-    //! draw the shape on the window
-    auto draw = [&]() {
-    };
-
-    //! update the position of the shape in the window
-    auto update = [&] {
-    };
-
-    //! check the keyboard event
-    auto keyboardEventCheck = [&]() {
-    };
-
-    //! check the collision
-    auto collisionCheck = [&] () {
-    };
-
     // game loop
     while (pWindow->isOpen())
     {
@@ -103,7 +60,9 @@ int main()
                 pWindow->close();
         }
 
-        keyboardEventCheck();
+        //\/////////////////////////////////////////
+        //keyboard event
+        //\/////////////////////////////////////////
         if (Keyboard::isKeyPressed(Keyboard::W))
         {
             if (pLeftBat->getPosition().top > 0) {
@@ -116,15 +75,15 @@ int main()
                 pLeftBat->moveDown();
             }
         } else if (Keyboard::isKeyPressed(Keyboard::A)) {
-            if (leftTickCounter >= 600) {
-                leftPowerIn.setFillColor(Color::White);
-                leftTickCounter = 0;
+            if (pLeftPower->isFull()) {
+                // leftPowerIn.setFillColor(Color::White);
+                pLeftPower->use();
                 pLeftBat->superPower(pLeftBat, pBall, WINDOW_WIDTH);
             }
         } else if (Keyboard::isKeyPressed(Keyboard::L)) {
-            if (rightTickCounter >= 600) {
-                rightPowerIn.setFillColor(Color::White);
-                rightTickCounter = 0;
+            if (pRightPower->isFull()) {
+                //rightPowerIn.setFillColor(Color::White);
+                pRightPower->use();
                 pRightBat->superPower(pRightBat, pBall, WINDOW_WIDTH);
             }
         }
@@ -149,7 +108,10 @@ int main()
             pWindow->close();
         }
 
-        collisionCheck();
+
+        //\//////////////////////////////////////////////
+        // Collision
+        //\/////////////////////////////////////////////
         if (
                 pBall->getPosition().top < 0 ||
                 pBall->getPosition().top > WINDOW_HEIGHT - 10
@@ -171,8 +133,6 @@ int main()
 
         // pBall hit something ?
         FloatRect pB;
-        bool isBat = false;
-
         if (
 
                 pBall->getPosition().intersects((pB = pLeftBat->getPosition())) ||
@@ -184,17 +144,8 @@ int main()
                 )
 
         {
-            int a = pB.top + pB.height - 2;
-            int b = pBall->getPosition().top;
-
-            std::cout << a << " == " << b <<  " => " << (a >= b-1 && a <= b+1) << "\n";
-
-
-            isBat = pB.left == 3 || pB.left == 760;
-            if (pB.top + pB.height - 2 == pBall->getPosition().top) {
-                std::cout << "Yeah, of course";
-            }
-            if (static_cast<int>(pBall->getPosition().top) == pB.top - 8 || pB.top + pB.height == pBall->getPosition().top) {
+            bool isBat = pB.left == 3 || pB.left == 760;
+            if (static_cast<int>(pBall->getPosition().top) == pB.top - 8 || (pB.top + pB.height - 2 >= pBall->getPosition().top-1 && pB.top + pB.height - 2 <= pBall->getPosition().top+1)) {
                 pBall->rebound(pBall->UP_AND_DOWN, isBat);
             } else  {
                 pBall->rebound(pBall->RIGHT_AND_LEFT, isBat);
@@ -202,53 +153,28 @@ int main()
 
         }
 
-        update();
+        //\//////////////////////////////////////////////
+        // Update
+        //\/////////////////////////////////////////////
         pBall->update();
         pLeftBat->update();
         pRightBat->update();
-
-        std::stringstream lss;
-        std::stringstream rss;
-        lss << leftScore;
-        rss << rightScore;
-        leftHud.setString(rss.str());
-        rightHud.setString(lss.str());
-
-        if (leftTickCounter == 600) {
-            leftPowerIn.setSize(sf::Vector2f(100, 20));
-            leftPowerIn.setFillColor(Color::Green);
-        } else {
-            leftPowerIn.setSize(sf::Vector2f(static_cast<int>(leftTickCounter / 6), 20));
-            if (pBall->getXVelocity() != 0) {
-                leftTickCounter++;
-            }
-        }
-
-        if (rightTickCounter == 600) {
-            rightPowerIn.setSize(sf::Vector2f(100, 20));
-            rightPowerIn.setFillColor(Color::Green);
-        } else {
-            rightPowerIn.setSize(sf::Vector2f(static_cast<int>(rightTickCounter / 6), 20));
-            if (pBall->getXVelocity() != 0) {
-                rightTickCounter++;
-            }
-        }
+        pLeftPower->update();
+        pRightPower->update();
 
         pWindow->clear(Color(0, 0, 0,0));
 
-        draw();
-        pWindow->draw(leftPowerOut);
-        pWindow->draw(leftPowerIn);
-        pWindow->draw(rightPowerOut);
-        pWindow->draw(rightPowerIn);
-
+        //\//////////////////////////////////////////////
+        // draw
+        //\/////////////////////////////////////////////
         pWindow->draw(pLeftBat->getShape());
         pWindow->draw(pRightBat->getShape());
         pWindow->draw(pBall->getShape());
+        pLeftPower->draw();
+        pRightPower->draw();
 
         // Draw our score
-        pWindow->draw(leftHud);
-        pWindow->draw(rightHud);
+        pLeftDisplay->draw();
 
         for (RectangleShape* rec : recs) {
             pWindow->draw(*rec);

@@ -12,7 +12,7 @@ using namespace sf;
 class Gauge {
 private:
     int m_maxPoint;
-    int m_currentPoint = 0;
+    float m_currentPoint = 0;
     int m_pointPerSecond;
     Vector2f m_position;
     RenderWindow* m_pWindow;

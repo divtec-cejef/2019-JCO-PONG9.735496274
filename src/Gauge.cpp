@@ -27,13 +27,16 @@ bool Gauge::isFull() {
 
 void Gauge::use() {
     m_currentPoint = 0;
+    m_shapeIn->setFillColor(Color::White);
 }
 
 void Gauge::update() {
     if (m_currentPoint < m_maxPoint) {
         m_currentPoint += m_pointPerSecond / m_tickPerSecond;
+        m_shapeIn->setSize(Vector2f(m_currentPoint / 600 * 100, 20));
     } else {
         m_currentPoint = m_maxPoint;
+        m_shapeIn->setFillColor(Color::Green);
     }
 }
 

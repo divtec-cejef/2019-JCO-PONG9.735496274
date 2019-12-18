@@ -12,6 +12,10 @@ using namespace sf;
 
 class ScoreViewer {
 private:
+    Text* m_text;
+    RenderWindow *m_pWindow;
+    int m_score = 0;
+    std::stringstream m_ss;
 public:
     ScoreViewer(Vector2f position, RenderWindow* window);
 

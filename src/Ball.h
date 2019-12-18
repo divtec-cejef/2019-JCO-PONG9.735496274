@@ -9,16 +9,15 @@
 #include <SFML/Graphics.hpp>
 #include "GameObject.h"
 
-
 using namespace sf;
 
 //! It's the ball of pong
 class Ball : public GameObject
 {
 private:
-    float xVelocity = 2;
-    float yVelocity = 2;
-    Vector2f startPosition;
+    float m_xVelocity = 0;
+    float m_yVelocity = 0;
+    Vector2f m_startPosition;
 
 
 public:
@@ -35,14 +34,13 @@ public:
     //! get the abcisse velocity of the ball
     float getXVelocity();
 
-    //! inverse the y velocity of the ball
-    void reboundWall();
-
     //! update the ball position
     void update() override;
 
 
-    void rebound(E_DIRECTION direction, bool isBat);
+    void rebound(E_DIRECTION direction, bool isBat, FloatRect pBat, FloatRect pBall);
+
+    void rebound(E_DIRECTION direction);
 
     void start();
 

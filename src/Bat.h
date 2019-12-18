@@ -14,9 +14,7 @@ using namespace sf;
 class Bat : public GameObject
 {
 private:
-    Vector2f startPosition;
-
-    float batSpeed = 5.3f;
+    float batSpeed = 7.0f;
     bool haveSuperPower = false;
     int tickCounter = 0;
 

@@ -1,11 +1,9 @@
 #include <SFML/Graphics.hpp>
-#include <sstream>
-#include <cstdlib>
 #include "Bat.h"
 #include "Gauge.h"
 #include "Ball.h"
 #include "ScoreViewer.h"
-#include <iostream>
+#include "MiddleLine.h"
 #include <windows.h>
 
 #include <vector>
@@ -24,9 +22,6 @@ int main()
     auto* pWindow = new RenderWindow(VideoMode(static_cast<int>(WINDOW_WIDTH), static_cast<int>(WINDOW_HEIGHT)), "Pong");
     pWindow->setFramerateLimit(60);
 
-    int leftScore = 0;
-    int rightScore = 0;
-
     // create a bat
     Bat* pLeftBat = new Bat(3, WINDOW_HEIGHT / 2);
     Bat* pRightBat = new Bat(WINDOW_WIDTH - 8, WINDOW_HEIGHT / 2);
@@ -36,16 +31,10 @@ int main()
     auto* pLeftPower = new Gauge(Vector2f(30, 10), 100, 20, 60, pWindow, 600, 60);
     auto* pRightPower = new Gauge(Vector2f(635, 10), 100, 20, 60, pWindow, 600, 60);
 
-    auto* pLeftDisplay = new ScoreViewer(Vector2f(20, 20), pWindow);
+    auto* pLeftDisplay = new ScoreViewer(Vector2f(5, 0), pWindow);
     auto* pRightDisplay = new ScoreViewer(Vector2f(WINDOW_WIDTH - 20, 0), pWindow);
 
-
-    std::vector <RectangleShape*> recs;
-
-    for (int i = 0; i < 11; i++) {
-        recs.push_back(new RectangleShape(sf::Vector2f(5, 20)));
-        recs.at(i)->setPosition(WINDOW_WIDTH / 2 - 2.5, i * 40 + 5);
-    }
+    auto* middleLine = new MiddleLine(static_cast<int>(WINDOW_WIDTH), pWindow);
 
     RectangleShape bigRec(sf::Vector2f(50, 50));
     bigRec.setPosition(WINDOW_WIDTH / 2, 100);
@@ -53,7 +42,7 @@ int main()
     // game loop
     while (pWindow->isOpen())
     {
-        Event event;
+        Event event{};
         while (pWindow->pollEvent(event))
         {
             if (event.type == Event::Closed)
@@ -116,18 +105,18 @@ int main()
                 pBall->getPosition().top < 0 ||
                 pBall->getPosition().top > WINDOW_HEIGHT - 10
                 ) {
-            pBall->reboundWall();
+            pBall->rebound(pBall->UP_AND_DOWN);
         }
 
         // pBall hitting side right
         if (pBall->getPosition().left < 0)
         {
-            leftScore += 1;
+            pRightDisplay->addPoint();
             pBall->stop();
         }
         // pBalle hitting side right
         if (pBall->getPosition().left + 10 > WINDOW_WIDTH) {
-            rightScore += 1;
+            pLeftDisplay->addPoint();
             pBall->stop();
         }
 
@@ -145,10 +134,10 @@ int main()
 
         {
             bool isBat = pB.left == 3 || pB.left == 760;
-            if (static_cast<int>(pBall->getPosition().top) == pB.top - 8 || (pB.top + pB.height - 2 >= pBall->getPosition().top-1 && pB.top + pB.height - 2 <= pBall->getPosition().top+1)) {
-                pBall->rebound(pBall->UP_AND_DOWN, isBat);
+            if (pBall->getPosition().top == pB.top - 8 || (pB.top + pB.height - 2 >= pBall->getPosition().top-1 && pB.top + pB.height - 2 <= pBall->getPosition().top+1)) {
+                pBall->rebound(pBall->UP_AND_DOWN, isBat, pB, pBall->getPosition());
             } else  {
-                pBall->rebound(pBall->RIGHT_AND_LEFT, isBat);
+                pBall->rebound(pBall->RIGHT_AND_LEFT, isBat, pB, pBall->getPosition());
             }
 
         }
@@ -163,7 +152,6 @@ int main()
         pRightPower->update();
 
         pWindow->clear(Color(0, 0, 0,0));
-
         //\//////////////////////////////////////////////
         // draw
         //\/////////////////////////////////////////////
@@ -172,13 +160,9 @@ int main()
         pWindow->draw(pBall->getShape());
         pLeftPower->draw();
         pRightPower->draw();
-
-        // Draw our score
         pLeftDisplay->draw();
-
-        for (RectangleShape* rec : recs) {
-            pWindow->draw(*rec);
-        }
+        pRightDisplay->draw();
+        middleLine->draw();
 
         pWindow->draw(bigRec);
 

@@ -10,7 +10,7 @@
 
 using namespace sf;
 
-//! Class Bat create a pong bat
+//! it's the bat object of the pong game
 class Bat : public GameObject
 {
 private:

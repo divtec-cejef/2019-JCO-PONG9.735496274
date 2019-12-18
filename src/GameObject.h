@@ -8,12 +8,15 @@
 
 using namespace sf;
 
-
+//! it's the main class for object placing on the canvas
 class GameObject {
 protected:
     RectangleShape* shape;
     Vector2f position;
 public:
+    //! Constructor of GameObject
+    //! \param startX contains the x position of the left of the shape
+    //! \param startY contains the y position of the top of the shape
     GameObject (float startX, float startY);
 
     FloatRect getPosition();

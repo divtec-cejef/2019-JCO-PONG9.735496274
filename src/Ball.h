@@ -11,7 +11,7 @@
 
 using namespace sf;
 
-//! It's the ball of pong
+//! It's the ball object of the game
 class Ball : public GameObject
 {
 private:
@@ -26,6 +26,7 @@ public:
     //! \param startY contains the y start position of the ball
     Ball(float startX, float startY);
 
+    //! Enum for describe the direction of the rebound of the ball
     enum E_DIRECTION {
         UP_AND_DOWN,
         RIGHT_AND_LEFT
@@ -37,13 +38,21 @@ public:
     //! update the ball position
     void update() override;
 
-
+    //! do the rebound of the ball
+    //! \param direction define the direction of the rebound
+    //! \param isBat define if the ball have hit a bat
+    //! \param pBat the float rectangle the bat that the ball have hurt
+    //! \param pBall the float rectangle of the ball
     void rebound(E_DIRECTION direction, bool isBat, FloatRect pBat, FloatRect pBall);
 
+    //! do the rebound of the ball
+    //! \param direction define the direction of the rebound
     void rebound(E_DIRECTION direction);
 
+    //! start the movement of the ball
     void start();
 
+    //! stop the movement of the ball and move it to the center
     void stop();
 };
 

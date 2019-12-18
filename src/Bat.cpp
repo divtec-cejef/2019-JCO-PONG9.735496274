@@ -7,7 +7,6 @@
 
 Bat::Bat(float startX, float startY) : GameObject(startX, startY)
 {
-    startPosition = position;
     setShape(5, 50);
 }
 
@@ -36,7 +35,7 @@ void Bat::update()
 void Bat::superPower(Bat *pBat, Ball *pBall, float windowWidth) {
     if (pBat->getPosition().left > windowWidth / 2) {
         /* Bat droite est pBat*/
-        if (pBall->getm_xVelocity() > 0) {
+        if (pBall->getXVelocity() > 0) {
             std::cout << "bonus droit";
             pBat->bonus(pBall);
         } else {

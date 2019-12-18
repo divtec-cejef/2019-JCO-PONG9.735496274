@@ -36,6 +36,7 @@ void Ball::rebound(E_DIRECTION direction, bool isBat, FloatRect pBat, FloatRect 
             m_yVelocity -= 1;
         } else if (pBat.top + pBat.height / 5 * 2 > ballMiddle) {
             m_yVelocity -= .5;
+        } else if (pBat.top + pBat.height / 5 * 3 > ballMiddle) {
         } else if (pBat.top + pBat.height / 5 * 4 > ballMiddle) {
             m_yVelocity += .5;
         } else {

@@ -3,7 +3,6 @@
 //
 
 #include "ScoreViewer.h"
-#include <iostream>
 
 ScoreViewer::ScoreViewer(Vector2f position, RenderWindow *window) {
     auto* font = new Font;

@@ -3,7 +3,6 @@
 //
 
 #include "Ball.h"
-#include <iostream>
 #include <cstdlib>
 
 
@@ -30,7 +29,7 @@ void Ball::update()
 
 void Ball::rebound(E_DIRECTION direction, bool isBat, FloatRect pBat, FloatRect pBall) {
     float ballMiddle = pBall.top + pBall.height / 2;
-    std::cout << "m_yVelocity: " << m_yVelocity << "\n";
+    //std::cout << "m_yVelocity: " << m_yVelocity << "\n";
     if (isBat) {
         if (pBat.top + pBat.height / 5 > ballMiddle) {
             m_yVelocity -= 1;

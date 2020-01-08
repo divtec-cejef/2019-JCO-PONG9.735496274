@@ -1,8 +1,6 @@
 //
 // Created by marttom on 20.11.2019.
 //
-
-#include <iostream>
 #include "Bat.h"
 
 Bat::Bat(float startX, float startY) : GameObject(startX, startY)
@@ -36,23 +34,23 @@ void Bat::superPower(Bat *pBat, Ball *pBall, float windowWidth) {
     if (pBat->getPosition().left > windowWidth / 2) {
         /* Bat droite est pBat*/
         if (pBall->getXVelocity() > 0) {
-            std::cout << "bonus droit";
+            //std::cout << "bonus droit";
             pBat->bonus(pBall);
         } else {
-            std::cout << "malus gauche";
+            //std::cout << "malus gauche";
             pBat->malus(pBall);
         }
     } else {
        /* Bat gauche est pBat*/
         if (pBall->getXVelocity() > 0) {
-            std::cout << "malus droit";
+            //std::cout << "malus droit";
             pBat->malus(pBall);
         } else {
-            std::cout << "bonus gauche";
+            //std::cout << "bonus gauche";
             pBat->bonus(pBall);
         }
     }
-    std::cout << "\n";
+    //std::cout << "\n";
 }
 
 void Bat::malus(Ball *pBall) {

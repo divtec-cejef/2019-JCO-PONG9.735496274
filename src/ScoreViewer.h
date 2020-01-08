@@ -10,6 +10,7 @@ using namespace sf;
 #define SRC_SCOREVIEWER_H
 
 //! Displayer of the score
+//! this class is util for
 class ScoreViewer {
 private:
     Text* m_text;

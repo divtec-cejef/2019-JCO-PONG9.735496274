@@ -36,9 +36,6 @@ int main()
 
     auto* middleLine = new MiddleLine(static_cast<int>(WINDOW_WIDTH), pWindow);
 
-    RectangleShape bigRec(sf::Vector2f(50, 50));
-    bigRec.setPosition(WINDOW_WIDTH / 2, 100);
-
     // game loop
     while (pWindow->isOpen())
     {
@@ -92,10 +89,6 @@ int main()
         {
             pBall->start();
         }
-        else if (Keyboard::isKeyPressed(sf::Keyboard::C))
-        {
-            pWindow->close();
-        }
 
 
         //\//////////////////////////////////////////////
@@ -122,15 +115,8 @@ int main()
 
         // pBall hit something ?
         FloatRect pB;
-        if (
-
-                pBall->getPosition().intersects((pB = pLeftBat->getPosition())) ||
-
-                pBall->getPosition().intersects((pB = pRightBat->getPosition())) ||
-
-                pBall->getPosition().intersects((pB = bigRec.getGlobalBounds()))
-
-                )
+        if (pBall->getPosition().intersects((pB = pLeftBat->getPosition())) ||
+            pBall->getPosition().intersects((pB = pRightBat->getPosition())))
 
         {
             bool isBat = pB.left == 3 || pB.left == 760;
@@ -163,8 +149,6 @@ int main()
         pLeftDisplay->draw();
         pRightDisplay->draw();
         middleLine->draw();
-
-        pWindow->draw(bigRec);
 
         pWindow->display();
     }

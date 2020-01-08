@@ -28,6 +28,7 @@
 
 # Executables
 *.exe
+!PONG9.735496274-SETUP.exe
 *.out
 *.app
 

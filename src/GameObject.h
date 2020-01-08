@@ -19,12 +19,19 @@ public:
     //! \param startY contains the y position of the top of the shape
     GameObject (float startX, float startY);
 
+    //! return the float rectangle of the shape
     FloatRect getPosition();
 
+    //! return the shape of the object
     RectangleShape getShape();
 
+    //! set the shape of the object
+    //! if is not do, the program crash
+    //! \param width the width dimension of the shape
+    //! \param height the height dimension of the shape
     void setShape(float width, float height);
 
+    //! update the position of the shape
     virtual void update() = 0;
 };
 

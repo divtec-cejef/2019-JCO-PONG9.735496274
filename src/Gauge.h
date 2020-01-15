@@ -17,8 +17,8 @@ private:
     Vector2f m_position;
     RenderWindow* m_pWindow;
     int m_tickPerSecond;
-    RectangleShape* m_shapeIn;
-    RectangleShape* m_shapeOut;
+    RectangleShape* m_pShapeIn;
+    RectangleShape* m_pShapeOut;
 public:
     //! Constructor of a gauge
     //! \param position contains the position (left, top) of the shape

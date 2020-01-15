@@ -10,17 +10,17 @@ GameObject::GameObject(float startX, float startY) {
 }
 
 FloatRect GameObject::getPosition() {
-    return shape->getGlobalBounds();
+    return pShape->getGlobalBounds();
 }
 
 RectangleShape GameObject::getShape() {
-        return *shape;
+        return *pShape;
 };
 
 void GameObject::setShape(float width, float height) {
-    shape = new RectangleShape;
-    shape->setPosition(position.x, position.y);
-    shape->setSize(Vector2f{width, height});
+    pShape = new RectangleShape;
+    pShape->setPosition(position.x, position.y);
+    pShape->setSize(Vector2f{width, height});
 }
 
 

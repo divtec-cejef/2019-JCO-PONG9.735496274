@@ -7,11 +7,11 @@
 ScoreViewer::ScoreViewer(Vector2f position, RenderWindow *window) {
     auto* font = new Font;
     font->loadFromFile("DS-DIGIT.TTF");
-    m_text = new Text();
-    m_text->setCharacterSize(30);
-    m_text->setString("0");
-    m_text->setFont(*font);
-    m_text->setPosition(position);
+    m_pText = new Text();
+    m_pText->setCharacterSize(30);
+    m_pText->setString("0");
+    m_pText->setFont(*font);
+    m_pText->setPosition(position);
     m_pWindow = window;
 }
 
@@ -24,11 +24,11 @@ void ScoreViewer::addPoint() {
     m_ss.clear();
     m_score += 1;
     m_ss << m_score;
-    m_text->setString(m_ss.str());
+    m_pText->setString(m_ss.str());
 }
 
 void ScoreViewer::draw() {
-    m_pWindow->draw(*m_text);
+    m_pWindow->draw(*m_pText);
 }
 
 void ScoreViewer::reset() {

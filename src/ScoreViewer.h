@@ -13,7 +13,7 @@ using namespace sf;
 //! this class is util for
 class ScoreViewer {
 private:
-    Text* m_text;
+    Text* m_pText;
     RenderWindow *m_pWindow;
     int m_score = 0;
     std::stringstream m_ss;

@@ -11,7 +11,7 @@ using namespace sf;
 //! it's the main class for object placing on the canvas
 class GameObject {
 protected:
-    RectangleShape* shape;
+    RectangleShape* pShape;
     Vector2f position;
 public:
     //! Constructor of GameObject
